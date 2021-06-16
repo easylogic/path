@@ -1,7 +1,7 @@
 
-import { getBezierPointOneQuard, getCurveBBox } from "src/util/base/functions/bezier";
-import { isNotUndefined, clone } from "src/util/base/functions/func";
-import { degreeToRadian, round } from "src/util/base/functions/math";
+import { getBezierPointOneQuard, getCurveBBox } from "./bezier";
+import { isNotUndefined, clone, isUndefined } from "./func";
+import { calculateMatrix, degreeToRadian, round } from "./math";
 import { mat4, vec3 } from "gl-matrix";
 import Point from "./Point";
 
@@ -374,7 +374,19 @@ export default class PathParser {
 
     rotate (angle, centerX, centerY) {
 
-        this.transformMat4(mat4.fromRotation([], degreeToRadian(angle), [centerX || 0, centerY || 0, 0]));
+        if (isNotUndefined(centerX) && isNotUndefined(centerY)) {
+            this.transformMat4(
+                calculateMatrix(
+                    mat4.fromTranslation([], [centerX, centerY, 0]),
+                    mat4.fromRotation([], degreeToRadian(angle), [0, 0, 1]),
+                    mat4.fromTranslation([], [-centerX, -centerY, 0]),
+                )
+            );
+        } else {
+            this.transformMat4(mat4.fromRotation([], degreeToRadian(angle), [0, 0, 1]));
+        }
+
+
         return this;        
     }
 
@@ -430,7 +442,7 @@ export default class PathParser {
     }    
 
 
-    skewX (angle) {
+    skewY (angle) {
         this.transformMat4(
             mat4.fromValues(
                 1, Math.tan(degreeToRadian(angle)), 0, 0,
@@ -443,7 +455,7 @@ export default class PathParser {
     }
 
 
-    skewXTo (angle) {
+    skewYTo (angle) {
         return this.joinPath(        
                     this.transformMat4(
                         mat4.fromValues(
@@ -457,7 +469,7 @@ export default class PathParser {
                 )
     }        
 
-    skewY (angle) {
+    skewX (angle) {
         this.transformMat4(
             mat4.fromValues(
                 1, 0, 0, 0,
@@ -469,7 +481,7 @@ export default class PathParser {
         return this;        
     }
 
-    skewYTo (angle) {
+    skewXTo (angle) {
         return this.joinPath(        
             this.transformMat4(
                 mat4.fromValues(
@@ -615,7 +627,7 @@ export default class PathParser {
     }
 
     invert (transformMatrix) {
-        this.transformMat4(mat4.invert([], transformMatrix));
+        return this.transformMat4(mat4.invert([], transformMatrix));
     }
 
     round (k = 1) {
@@ -713,6 +725,8 @@ export default class PathParser {
         })
 
         this.segments = newSegments;
+
+        return this;
     }
 
     get verties () {
@@ -720,6 +734,7 @@ export default class PathParser {
 
         let lastValues = []
         this.each(function(segment) {
+            console.log(segment);
             var v = segment.values;
             var c = segment.command;
 

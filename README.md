@@ -1,115 +1,50 @@
-# EasyLogic Studio
+# Path Library with easylogic
 
 
-EasyLogic Studio is built using CSS and SVG to reduce the gap between web design and code. The goal is to have the same point in time between the designer's design and the developer's output.
+# How to use 
 
+```js
+import path from '@easylogic/path'
 
-* manual : https://www.easylogic.studio/docs/getting-started.html
-* editor : https://editor.easylogic.studio/
+const d = "M20 20 L 30 30";
+const pathObject = new path.PathParser(d);
 
+pathObject.translate(100, 200)
 
-This project is [sapa](https://github.com/easylogic/sapa) based. 
+pathObject.scale(1.2, 1.3)
 
-# Screen Shot 
+pathObject.reflectionOrigin()
 
-<img src='https://www.easylogic.studio/images/editor.png' />
+pathObject.flipX()
 
+pathObject.flipY()
 
-# Features 
+pathObject.skewX(10)
 
-### Support Element 
+pathObject.skewY(10)
 
-* Rect 
-* Circle 
-* Text 
-* Image 
-* Cube 
-* Cylinder 
-* SVG Path 
-* SVG Rect with path 
-* SVG Circle with path 
-* SVG Text 
-* SVG TextPath
+pathObject.rotate(90)
 
+pathObject.rotate(90, 10, 10)   
 
-### Style
+pathObject.getBBox()
 
-* Alignment 
-* Position 
-* Size 
-* BoxModel 
-* Transform 
-  * Support transform ui  (rotate X,Y,Z )
-* Many styling tools 
-  * background
-  * font & text style 
-  * gradient (multiple background images)
-  * border & radius 
-  * filter
-  * clip-path
-  * box-shadows 
-  * text-shadows 
-
-
-### Animation 
-* Transition 
-* Animation & Keyframes 
-* Support cubic-bezier editor 
-* Support timeline editor 
-
-### Code & Share 
-* Support export to CodePen 
-* Support code viewer  
-* Support png & svg download  
-
-### Drawing 
-* Support mini path and polygon editor 
-* Support draw star polygon 
-
-### Assets 
-* Color
-* Gradient
-* SVG Filter 
-* Image 
-
-
-### Theming  
-* dark
-* light
-
+pathObject.reverse()
+```
 
 # Development 
 
 ```
-git clone https://github.com/easylogic/editor.git
-cd editor
+git clone https://github.com/easylogic/path.git
+cd path
 npm install 
 npm run dev 
 ``` 
-
-# Development - Electron 
-
-```
-git clone https://github.com/easylogic/editor.git
-cd editor
-npm install 
-npm install electron 
-open terminal (open local web server)
--> npm run dev:electron 
-open terminal (run electron)
--> npm run electron 
-
-```
 
 # build 
 
 ```
 npm run build 
 ```
-
-# Thanks to 
-
-* icon - https://material.io/resources/icons/?style=baseline
-
 
 # License : MIT

@@ -9,6 +9,7 @@ module.exports = {
   output: {
     library: "path",
     libraryTarget: "umd",
+    libraryExport: "default",
     path: __dirname + "/docs",
   },
   module: {

@@ -1,4 +1,4 @@
-import { clone } from "src/util/base/functions/func";
+import { clone } from "./func";
 
 export default class Point {
     static isEqual(a, b, c) {
